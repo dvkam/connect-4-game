@@ -1,4 +1,5 @@
 import React from "react";
+import { Move } from "../App";
 
 const styles = {
   column: {
@@ -21,8 +22,20 @@ const styles = {
   },
 };
 
-export default class Board extends React.Component {
-  constructor(props) {
+export interface IProps {
+  rows: number;
+  columns: number;
+  winner: string | null;
+  moves: Move[]; 
+  getPiece: (column: number, row: number) => { player: string } | undefined;
+  addMove: (column: number, row: number) => void;
+  resetBoard: () => void;
+}
+
+export interface IState {}
+
+export default class Board extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
     super(props);
   }
   render() {
@@ -61,11 +74,12 @@ export default class Board extends React.Component {
       );
     }
 
+
     return (
       <div className={"stylesheet"}>
         {winner && (
           <div
-            onClick={this.resetBoard}
+            onClick={this.props.resetBoard}
             style={{
               position: "absolute",
               left: 0,
@@ -77,7 +91,7 @@ export default class Board extends React.Component {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
-              color: "#fff",
+              color: "black",
               fontWeight: "200",
               fontSize: "8vw",
             }}
